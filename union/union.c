@@ -1,50 +1,48 @@
-
-
 #include <unistd.h>
 
-void    ft_putchar(char c)
+int		ft_verif_char(char *str, char c, int index)
 {
-    write (1, &c, 1);
-}
-
-int main(int ac, char **av)
-{
-	int tab[256];
-	unsigned char *s1;
-	unsigned char *s2;
 	int		i;
 
 	i = 0;
-	if (ac == 3)
+	while (i < index)
 	{
-		s1 = av[1];
-		s2 = av[2];
-		while (i < 256)
-		{
-			tab[i] = 0;
-			i++;
-		}
-		i = 0;
-		while (s1[i] != '\0')
-		{
-			if (tab[s1[i]] == 0)
-			{
-				ft_putchar(s1[i]);
-				tab[s1[i]] = 1;
-			}
-			i++;
-		}
-		i = 0;
-		while (s2[i] != '\0')
-		{
-			if (tab[(int)s2[i]] == 0)
-			{
-				ft_putchar(s2[i]);
-				tab[s2[i]] = 1;
-			}
-			i++;
-		}
+		if (str[i] == c)
+			return (0);
+		i++;
 	}
-	ft_putchar('\n');
+	return (1);
+}
+
+void	ft_union(char *s1, char *s2)
+{
+	int		i;
+	int		len;
+
+	i = 0;
+	while (s1[i])
+	{
+		if (ft_verif_char(s1, s1[i], i) == 1)
+			write(1, &s1[i], 1);
+		i++;
+	}
+	len = i;
+	i = 0;
+	while (s2[i])
+	{
+		if (ft_verif_char(s2, s2[i], i) == 1)
+		{
+			if (ft_verif_char(s1, s2[i], len) == 1)
+				write(1, &s2[i], 1);
+		}
+		i++;
+	}
+}
+
+int		main(int argc, char **argv)
+{
+	if (argc == 3)
+		ft_union(argv[1], argv[2]);
+	write(1, "\n", 1);
 	return (0);
 }
